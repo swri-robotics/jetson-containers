@@ -17,6 +17,8 @@ LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 
 # Prereqs
 
+RUN echo 'Acquire::http { Proxy "http://ivs-nas-1.dyn.datasys.swri.edu:3142"; }' | tee -a /etc/apt/apt.conf.d/proxy
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gnupg \
     && \

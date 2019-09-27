@@ -9,6 +9,8 @@ FROM ${IMAGE_NAME}:32.2-tx2-jetpack-4.2.1-runtime
 
 ARG CUDA_TOOLKIT_PKG="cuda-repo-l4t-10-0-local-${CUDA_PKG_VERSION}_arm64.deb"
 
+RUN echo 'Acquire::http { Proxy "http://ivs-nas-1.dyn.datasys.swri.edu:3142"; }' | tee -a /etc/apt/apt.conf.d/proxy
+
 COPY --from=dependencies /data/${CUDA_TOOLKIT_PKG} ${CUDA_TOOLKIT_PKG}
 RUN echo "0e12b2f53c7cbe4233c2da73f7d8e6b4 ${CUDA_TOOLKIT_PKG}" | md5sum -c - && \
     dpkg --force-all -i ${CUDA_TOOLKIT_PKG} && \
@@ -93,17 +95,17 @@ ENV LIBINFER_DEV_PKG libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 ENV LIBINFER_SAMPLES_PKG libnvinfer-samples_${LIBINFER_PKG_VERSION}+cuda10.0_all.deb
 
 COPY --from=dependencies /data/${LIBINFER_PKG} ${LIBINFER_PKG}
-RUN echo "dca1e2dadeae2186b57a11861fac7652 ${LIBINFER_PKG}" | md5sum -c - && \
+RUN echo "9da0093178ae3dde92942e74274e8e3a ${LIBINFER_PKG}" | md5sum -c - && \
     dpkg -i ${LIBINFER_PKG} && \
     rm ${LIBINFER_PKG}
 
 COPY --from=dependencies /data/${LIBINFER_DEV_PKG} ${LIBINFER_DEV_PKG}
-RUN echo "0e0c0c6d427847d5994f04fbce0401d2 ${LIBINFER_DEV_PKG}" | md5sum -c - && \
+RUN echo "1a580a0b8b1aad0a497c722fbd4e77c2 ${LIBINFER_DEV_PKG}" | md5sum -c - && \
     dpkg -i ${LIBINFER_DEV_PKG} && \
     rm ${LIBINFER_DEV_PKG}
 
 COPY --from=dependencies /data/${LIBINFER_SAMPLES_PKG} ${LIBINFER_SAMPLES_PKG}
-RUN echo "e8f021ea1fad99d99f0f551d7ea3146a ${LIBINFER_SAMPLES_PKG}" | md5sum -c - && \
+RUN echo "c8cc2db854381b7f92a5e7604da66e36 ${LIBINFER_SAMPLES_PKG}" | md5sum -c - && \
     dpkg -i ${LIBINFER_SAMPLES_PKG} && \
     rm ${LIBINFER_SAMPLES_PKG}
 
@@ -116,7 +118,7 @@ LABEL com.nvidia.tensorrt.version="${TENSORRT_VERSION}"
 ENV TENSORRT_PKG tensorrt_${TENSORRT_PKG_VERSION}+cuda10.0_arm64.deb
 
 COPY --from=dependencies /data/${TENSORRT_PKG} ${TENSORRT_PKG}
-RUN echo "66e6df17b7a92d32dd3465bdfca9fc8d ${TENSORRT_PKG}" | md5sum -c - && \
+RUN echo "9fbd6ca009cdf96391e2572f1d9ee773 ${TENSORRT_PKG}" | md5sum -c - && \
     dpkg -i ${TENSORRT_PKG} && \
     rm ${TENSORRT_PKG}
 
@@ -133,12 +135,12 @@ RUN apt-get update && apt-get install -y \
 
 # Python2 support for TensorRT
 COPY --from=dependencies /data/python-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb python-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "ae1a0c1b859345df172781f3d6d5d6f9 python-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "05f07c96421bb1bfc828c1dd3bcf5fad python-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i python-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm python-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 
 COPY --from=dependencies /data/python-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb python-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "53042900339b60f8f4da17e7f8e873ea python-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "35febdc63ec98a92ce1695bb10a2b5e8 python-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i python-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm python-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 
@@ -155,24 +157,24 @@ RUN apt-get update && apt-get install -y \
 
 # Python3 support for TensorRT
 COPY --from=dependencies /data/python3-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb python3-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "0f3345fe86f29e14b056df400bdd9458 python3-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "88104606e76544cac8d79b4288372f0e python3-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i python3-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm python3-libnvinfer_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 
 COPY --from=dependencies /data/python3-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb python3-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "a6a9e37a31ceea0981a4f2622b4cce53 python3-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "1b703b6ab7a477b24ac9e90e64945799 python3-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i python3-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm python3-libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 
 # Graph Surgeon
 COPY --from=dependencies /data/graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "5729cc195d365335991c58abd75e0c99 graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "c88082e2cc9fa71e24c560b26e6f5a5b graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 
 # UFF Converter
 COPY --from=dependencies /data/uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "b6310b19820a8b844d36dc597d2bf835 uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "7eddfa1cba81da4a96a5014cdc9198e1 uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 

@@ -7,6 +7,8 @@ FROM ${IMAGE_NAME}:32.2-tx2-jetpack-4.2.1-base
 
 # CUDA libraries for L4T
 
+RUN echo 'Acquire::http { Proxy "http://ivs-nas-1.dyn.datasys.swri.edu:3142"; }' | tee -a /etc/apt/apt.conf.d/proxy
+
 ARG CUDA_TOOLKIT_PKG="cuda-repo-l4t-10-0-local-${CUDA_PKG_VERSION}_arm64.deb"
 
 COPY --from=dependencies /data/${CUDA_TOOLKIT_PKG} ${CUDA_TOOLKIT_PKG}

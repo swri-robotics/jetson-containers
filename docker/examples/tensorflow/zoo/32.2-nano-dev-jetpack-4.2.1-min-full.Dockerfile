@@ -67,17 +67,17 @@ ENV LIBINFER_DEV_PKG libnvinfer-dev_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 ENV LIBINFER_SAMPLES_PKG libnvinfer-samples_${LIBINFER_PKG_VERSION}+cuda10.0_all.deb
 
 COPY --from=dependencies /data/${LIBINFER_PKG} ${LIBINFER_PKG}
-RUN echo "dca1e2dadeae2186b57a11861fac7652 ${LIBINFER_PKG}" | md5sum -c - && \
+RUN echo "9da0093178ae3dde92942e74274e8e3a ${LIBINFER_PKG}" | md5sum -c - && \
     dpkg -i ${LIBINFER_PKG} && \
     rm ${LIBINFER_PKG}
 
 COPY --from=dependencies /data/${LIBINFER_DEV_PKG} ${LIBINFER_DEV_PKG}
-RUN echo "0e0c0c6d427847d5994f04fbce0401d2 ${LIBINFER_DEV_PKG}" | md5sum -c - && \
+RUN echo "1a580a0b8b1aad0a497c722fbd4e77c2 ${LIBINFER_DEV_PKG}" | md5sum -c - && \
     dpkg -i ${LIBINFER_DEV_PKG} && \
     rm ${LIBINFER_DEV_PKG}
 
 COPY --from=dependencies /data/${LIBINFER_SAMPLES_PKG} ${LIBINFER_SAMPLES_PKG}
-RUN echo "e8f021ea1fad99d99f0f551d7ea3146a ${LIBINFER_SAMPLES_PKG}" | md5sum -c - && \
+RUN echo "c8cc2db854381b7f92a5e7604da66e36 ${LIBINFER_SAMPLES_PKG}" | md5sum -c - && \
     dpkg -i ${LIBINFER_SAMPLES_PKG} && \
     rm ${LIBINFER_SAMPLES_PKG}
 
@@ -90,19 +90,19 @@ LABEL com.nvidia.tensorrt.version="${TENSORRT_VERSION}"
 ENV TENSORRT_PKG tensorrt_${TENSORRT_PKG_VERSION}+cuda10.0_arm64.deb
 
 COPY --from=dependencies /data/${TENSORRT_PKG} ${TENSORRT_PKG}
-RUN echo "66e6df17b7a92d32dd3465bdfca9fc8d ${TENSORRT_PKG}" | md5sum -c - && \
+RUN echo "9fbd6ca009cdf96391e2572f1d9ee773 ${TENSORRT_PKG}" | md5sum -c - && \
     dpkg -i ${TENSORRT_PKG} && \
     rm ${TENSORRT_PKG}
 
 # Graph Surgeon
 COPY --from=dependencies /data/graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "5729cc195d365335991c58abd75e0c99 graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "c88082e2cc9fa71e24c560b26e6f5a5b graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm graphsurgeon-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 
 # UFF Converter
 COPY --from=dependencies /data/uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
-RUN echo "b6310b19820a8b844d36dc597d2bf835 uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
+RUN echo "7eddfa1cba81da4a96a5014cdc9198e1 uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb" | md5sum -c - && \
     dpkg -i uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb && \
     rm uff-converter-tf_${LIBINFER_PKG_VERSION}+cuda10.0_arm64.deb
 
